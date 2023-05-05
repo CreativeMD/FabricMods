@@ -4,9 +4,6 @@
 [submodule "CreativeCore"]
 	path = CreativeCore
 	url = https://github.com/CreativeMD/CreativeCore.git
-[submodule "CreativeLoaderFabric"]
-	path = CreativeLoaderFabric
-	url = https://github.com/CreativeMD/CreativeLoaderFabric.git
 [submodule "EnhancedVisuals"]
 	path = EnhancedVisuals
 	url = https://github.com/CreativeMD/EnhancedVisuals.git
@@ -19,3 +16,6 @@
 [submodule "OpticManager"]
 	path = OpticManager
 	url = https://github.com/CreativeMD/OpticManager.git
+[submodule "colored-lights"]
+	path = colored-lights
+	url = https://github.com/Gegy/colored-lights.git
