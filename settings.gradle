@@ -8,7 +8,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = '1.19_fabric'
+rootProject.name = '1.20_fabric'
 include 'CreativeCore'
 project(':CreativeCore').buildFileName = 'build.fabric.gradle'
 include 'AmbientSounds'
