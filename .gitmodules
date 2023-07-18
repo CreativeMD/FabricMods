@@ -1,21 +1,28 @@
 [submodule "AmbientSounds"]
 	path = AmbientSounds
 	url = https://github.com/CreativeMD/AmbientSounds.git
+	branch = 1.20
 [submodule "CreativeCore"]
 	path = CreativeCore
 	url = https://github.com/CreativeMD/CreativeCore.git
+	branch = 1.20
 [submodule "EnhancedVisuals"]
 	path = EnhancedVisuals
 	url = https://github.com/CreativeMD/EnhancedVisuals.git
+	branch = 1.20
 [submodule "ItemPhysic"]
 	path = ItemPhysic
 	url = https://github.com/CreativeMD/ItemPhysic.git
+	branch = 1.20
 [submodule "ItemPhysicLite"]
 	path = ItemPhysicLite
 	url = https://github.com/CreativeMD/ItemPhysicLite.git
+	branch = 1.20
 [submodule "OpticManager"]
 	path = OpticManager
 	url = https://github.com/CreativeMD/OpticManager.git
+	branch = 1.20
 [submodule "colored-lights"]
 	path = colored-lights
 	url = https://github.com/Gegy/colored-lights.git
+	branch = 1.20
