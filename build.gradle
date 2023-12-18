@@ -17,3 +17,59 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+import groovy.json.*
+
+gradle.afterProject { project ->
+    if (project != rootProject) {
+        project.tasks.getByName("processResources") {
+            outputs.upToDateWhen { false }
+            filesMatching('pack.mcmeta') {
+                def input = openJsonFile(getFile())
+                processJson([description: project.mod_name + " resources", pack_format: resource_pack_format,
+                "forge:resource_pack_format": resource_pack_format, "forge:data_pack_format": data_pack_format], input)
+                saveJsonFile(input, getFile())
+            }
+            filesMatching('fabric.mod.json') {
+                def input = openJsonFile(getFile())
+                processJson([id: project.mod_id, version: project.mod_version, name: project.mod_name, description: project.mod_description,
+                license: project.mod_license, icon: project.mod_id + ".png", fabricloader: loader_version_range, "fabric-api": "*", minecraft: minecraft_version_range], input)
+                if (project.hasProperty("modDependencies")) {
+                    project.modDependencies.each {
+                        dependency -> {
+                            input["depends"][dependency.key] = dependency.value
+                        }
+                    }                    
+                }
+                saveJsonFile(input, getFile())
+            }
+        }
+    }
+}
+
+Object openJsonFile(file) {
+    String fileContents = file.text.replaceAll(/\$\{[^}]*\}/, "0")
+    def input = new JsonSlurper().parseText(fileContents)
+    return input
+}
+
+void saveJsonFile(input, file) {
+    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+    writer.write(JsonOutput.prettyPrint(JsonOutput.toJson(input)));
+    writer.close();
+}
+
+void processJson(properties, object) {
+    object.each {
+        entry -> {
+            if(entry.value instanceof Map) {
+                processJson(properties, entry.value)
+            } else if(properties.keySet().contains(entry.key)) {
+                entry.value = properties.get(entry.key)
+                if(entry.value.isNumber()) {
+                    entry.value = entry.value.toInteger()
+                }
+            }
+        }
+    }
+}
