@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'net.darkhax.curseforgegradle' version '1.1.+'
 }
 
 group 'team.creative'
@@ -120,26 +121,31 @@ gradle.afterProject { project ->
             }
         }
         
-        project.tasks.curseforge.enabled = System.getenv("CURSEFORGE_TOKEN") != null
-        project.tasks.curseforge.group = 'publishing'
-        project.curseforge.apiKey = System.getenv("CURSEFORGE_TOKEN") != null ? System.getenv("CURSEFORGE_TOKEN") : "empty"
-        project.curseforge.project {
-            id = project.curse_id
-            changelog = getChangelogText(project)
-            changelogType = "markdown"
-            addGameVersion project.minecraft_version
-            addGameVersion "Fabric"
-            releaseType = project.release_type
-            mainArtifact(project.remapJar) {
+        project.tasks.register("curseforge", net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+            group = 'publishing'
+            apiToken = System.getenv("CURSEFORGE_TOKEN") != null ? System.getenv("CURSEFORGE_TOKEN") : "empty"
+            disableVersionDetection()
+            
+            def mainFile = upload(project.curse_id, project.remapJar)
+            mainFile.releaseType = project.release_type
+            mainFile.changelog = getChangelogText(project)
+            mainFile.changelogType = 'markdown'
+            mainFile.addModLoader("NeoForge")
+            mainFile.addGameVersion(project.minecraft_version)
+            if (project.hasProperty("modSides") && project.modSides instanceof List && !project.modSides.isEmpty()) {
+                project.modSides.each {
+                    side -> {
+                        mainFile.addEnvironment(side)
+                    }
+                }
+            } else {
+                mainFile.addEnvironment("client", "server")
             }
-            relations {
-                requiredLibrary "fabric-api"
-                if (project.hasProperty("modDependencies")) {
-                    project.modDependencies.each {
-                        dependency -> {
-                            requiredLibrary dependency.key
-                        }
-                    }                    
+            if (project.hasProperty("modDependencies") && project.modDependencies instanceof List && !project.modDependencies.isEmpty()) {
+                project.modDependencies.each {
+                    key, dependency -> {
+                        mainFile.addRequirement(key)
+                    }
                 }
             }
         }
