@@ -25,7 +25,6 @@ import groovy.json.*
 
 gradle.afterProject { project ->
     if (project != rootProject) {
-	    System.setProperty("line.separator", "\r\n");
         project.tasks.getByName("processResources") {
             outputs.upToDateWhen { false }
             filesMatching('pack.mcmeta') {
@@ -197,7 +196,7 @@ Object openJsonFile(file) {
 
 void saveJsonFile(input, file) {
     BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-    writer.write(JsonOutput.prettyPrint(JsonOutput.toJson(input)));
+    writer.write(JsonOutput.prettyPrint(JsonOutput.toJson(input)).replace("\n", "\r\n"));
     writer.close();
 }
 
