@@ -25,6 +25,7 @@ import groovy.json.*
 
 gradle.afterProject { project ->
     if (project != rootProject) {
+	    System.setProperty("line.separator", "\r\n");
         project.tasks.getByName("processResources") {
             outputs.upToDateWhen { false }
             filesMatching('pack.mcmeta') {
@@ -48,8 +49,19 @@ gradle.afterProject { project ->
             }
         }
         
+        project.java.withSourcesJar()
+        
+        def modFilePrefix = "FABRIC"
+        if (project.hasProperty("mod_release_suffix") && project.mod_release_suffix != "") {
+            modFilePrefix = project.mod_release_suffix
+        }
+        
         project.remapJar {
-            archiveFileName = project.mod_name + "_FABRIC_v" + project.mod_version + "_mc" + project.minecraft_version + ".jar"
+            archiveFileName.set(project.mod_name + "_" + modFilePrefix + "_v" + project.mod_version + "_mc" + project.minecraft_version + ".jar")
+        }
+        
+        project.sourcesJar {
+             archiveFileName.set(project.mod_name + "_" + modFilePrefix + "_SOURCE_v" + project.mod_version + "_mc" + project.minecraft_version + ".jar")
         }
         
         project.jar {
@@ -119,6 +131,7 @@ gradle.afterProject { project ->
                     }                    
                 }
             }
+            additionalFiles = [ project.sourcesJar ]
         }
         
         project.tasks.register("curseforge", net.darkhax.curseforgegradle.TaskPublishCurseForge) {
@@ -148,6 +161,10 @@ gradle.afterProject { project ->
                     }
                 }
             }
+            
+            def sourcesFile = mainFile.withAdditionalFile(project.sourcesJar)
+            sourcesFile.changelog = getChangelogText(project)
+            sourcesFile.changelogType = 'markdown'
         }
     }
 }
