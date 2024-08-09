@@ -142,7 +142,7 @@ gradle.afterProject { project ->
             mainFile.releaseType = project.release_type
             mainFile.changelog = getChangelogText(project)
             mainFile.changelogType = 'markdown'
-            mainFile.addModLoader("NeoForge")
+            mainFile.addModLoader("Fabric")
             mainFile.addGameVersion(project.minecraft_version)
             if (project.hasProperty("modSides") && project.modSides instanceof List && !project.modSides.isEmpty()) {
                 project.modSides.each {
