@@ -22,3 +22,7 @@
 	path = OpticManager
 	url = https://github.com/CreativeMD/OpticManager.git
 	branch = 1.20
+[submodule "NoDurabilityLost"]
+	path = NoDurabilityLost
+	url = https://github.com/CreativeMD/NoDurabilityLost.git
+	branch = 1.21
