@@ -26,3 +26,7 @@
 	path = colored-lights
 	url = https://github.com/Gegy/colored-lights.git
 	branch = 1.20
+[submodule "NoDurabilityLost"]
+	path = NoDurabilityLost
+	url = https://github.com/CreativeMD/NoDurabilityLost
+	branch = 1.20
