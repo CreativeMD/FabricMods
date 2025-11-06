@@ -160,8 +160,8 @@ gradle.afterProject { project ->
             }
             if (project.hasProperty("modDependencies") && project.modDependencies instanceof List && !project.modDependencies.isEmpty()) {
                 project.modDependencies.each {
-                    key, dependency -> {
-                        mainFile.addRequirement(key)
+                    dependency -> {
+                        mainFile.addRequirement(dependency.key)
                     }
                 }
             }
