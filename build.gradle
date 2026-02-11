@@ -36,7 +36,8 @@ gradle.afterProject { project ->
             filesMatching('fabric.mod.json') {
                 def input = openJsonFile(getFile())
                 processJson([id: project.mod_id, version: project.mod_version, name: project.mod_name, description: project.mod_description,
-                license: project.mod_license, icon: project.mod_id + ".png", fabricloader: loader_version_range, "fabric-api": "*", minecraft: minecraft_version_range], input)
+                license: project.mod_license, icon: project.mod_id + ".png", fabricloader: loader_version_range, "fabric-api": "*", minecraft: minecraft_version_range,
+                sources: "https://github.com/" + project.github_project, homepage: project.mod_display_url, issues: "https://github.com/" + project.github_project + "/issues"], input)
                 if (project.hasProperty("modDependencies")) {
                     project.modDependencies.each {
                         dependency -> {
