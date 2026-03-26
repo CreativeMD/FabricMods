@@ -19,7 +19,7 @@ test {
     useJUnitPlatform()
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
 import groovy.json.*
 
@@ -55,17 +55,13 @@ gradle.afterProject { project ->
             modFilePrefix = project.mod_release_suffix
         }
         
-        project.remapJar {
+        project.jar {
             archiveFileName.set(project.mod_name + "_" + modFilePrefix + "_v" + project.mod_version + "_mc" + project.minecraft_version + ".jar")
         }
         
         project.sourcesJar {
             exclude('assets/*')
             exclude('data/*')
-            archiveFileName.set(project.mod_name + "_" + modFilePrefix + "_SOURCE_v" + project.mod_version + "_mc" + project.minecraft_version + ".jar")
-        }
-        
-        project.remapSourcesJar {
             archiveFileName.set(project.mod_name + "_" + modFilePrefix + "_SOURCE_v" + project.mod_version + "_mc" + project.minecraft_version + ".jar")
         }
         
@@ -80,8 +76,8 @@ gradle.afterProject { project ->
             vmArgs "-Dfabric.debug.replaceVersion=${project.mod_id}:${project.mod_version}"
         }
         
-        project.java.toolchain.languageVersion = JavaLanguageVersion.of(21)
-        def targetJavaVersion = 21
+        project.java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+        def targetJavaVersion = 25
         project.tasks.withType(JavaCompile).configureEach {
             it.options.encoding = "UTF-8"
             if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
@@ -123,7 +119,7 @@ gradle.afterProject { project ->
             }
             versionNumber = project.mod_version
             versionType = project.release_type
-            uploadFile = project.remapJar
+            uploadFile = project.jar
             gameVersions = [ project.minecraft_version ]
             changelog = getChangelogText(project)
             dependencies {
@@ -144,7 +140,7 @@ gradle.afterProject { project ->
             apiToken = System.getenv("CURSEFORGE_TOKEN") != null ? System.getenv("CURSEFORGE_TOKEN") : "empty"
             disableVersionDetection()
             
-            def mainFile = upload(project.curse_id, project.remapJar)
+            def mainFile = upload(project.curse_id, project.jar)
             mainFile.releaseType = project.release_type
             mainFile.changelog = getChangelogText(project)
             mainFile.changelogType = 'markdown'
