@@ -8,6 +8,10 @@ pluginManagement {
     }
 }
 
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+}
+
 rootProject.name = '1.20_fabric'
 include 'CreativeCore'
 project(':CreativeCore').buildFileName = 'build.fabric.gradle'
