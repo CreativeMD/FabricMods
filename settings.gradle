@@ -12,7 +12,7 @@ plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
 }
 
-rootProject.name = '1.21.x_fabric'
+rootProject.name = '26.x_fabric'
 include 'CreativeCore'
 project(':CreativeCore').buildFileName = 'build.fabric.gradle'
 include 'AmbientSounds'
@@ -27,3 +27,5 @@ include 'OpticManager'
 project(':OpticManager').buildFileName = 'build.fabric.gradle'
 include 'NoDurabilityLost'
 project(':NoDurabilityLost').buildFileName = 'build.fabric.gradle'
+include 'SOLOnion'
+project(':SOLOnion').buildFileName = 'build.fabric.gradle'

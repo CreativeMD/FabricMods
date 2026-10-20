@@ -26,3 +26,7 @@
 	path = NoDurabilityLost
 	url = https://github.com/CreativeMD/NoDurabilityLost.git
 	branch = 1.21
+[submodule "SOLOnion"]
+	path = SOLOnion
+	url = https://github.com/CreativeMD/Spice-of-Life-Onion.git
+	branch = 26.x
